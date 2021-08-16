@@ -1,9 +1,6 @@
 import { FC, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { Product, getProduct } from "../../lib/product";
 import { CartItem, getCart, clearCart } from "../../lib/cartItem";
-// import styles from "../product.module.css";
+import Item from "../../components/Item";
 
 type Props = {
   incrementNumItems(): void;
@@ -12,6 +9,7 @@ type Props = {
 
 const Cart: FC<Props> = ({ incrementNumItems, decrementNumItems }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     setCart(getCart());
@@ -22,21 +20,29 @@ const Cart: FC<Props> = ({ incrementNumItems, decrementNumItems }) => {
     window.alert("注文しました！");
   };
 
-  let total = 0;
-  cart.forEach((item) => {
-    total += item.quantity * item.product.price;
-  });
+  const reflectTotal = (price: number, direction: -1 | 1) => {
+    setTotal(total + price * direction);
+  };
+
+  useEffect(() => {
+    let temp_total: number = 0;
+    cart.forEach((item) => {
+      temp_total += item.quantity * item.product.price;
+    });
+    setTotal(temp_total);
+  }, [cart]);
 
   return (
     <div>
       <div>
         {cart.map((item) => (
-          <div key={item.product.id}>
-            <h1>{item.product.name}</h1>
-            <img src={item.product.imageUrl} alt={`${item.product.name}の写真`} />
-            <div>{item.product.price}円</div>
-            <div>{item.quantity}個</div>
-          </div>
+          <Item
+            item={item}
+            incrementNumItems={incrementNumItems}
+            decrementNumItems={decrementNumItems}
+            reflectTotal={reflectTotal}
+            key={item.product.id}
+          />
         ))}
       </div>
       <div>

@@ -1,0 +1,27 @@
+.image {
+  height: 200px;
+  width: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: inline-block;
+}
+
+.itemInfo {
+  display: inline-block;
+}
+
+.price {
+}
+
+.productName {
+}
+
+.quantity {
+  display: inline-block;
+}
+
+.itemWrapperStyle {
+  border: "solid";
+  border-color: "#dcdcdc", ¥;
+  height: 200px;
+}
