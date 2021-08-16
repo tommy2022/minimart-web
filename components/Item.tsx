@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
-import { CartItem, incrementQuantity, decrementQuantity } from "../lib/cartItem";
+import { CartItem, incrementQuantity, decrementQuantity } from "../lib/cart";
 import styles from "./Item.module.css";
 
 type Props = {
   item: CartItem;
   incrementNumItems(): void;
   decrementNumItems(): void;
-  reflectTotal(arg1: number, arg2: -1 | 1): void;
+  reflectTotal(price: number, direction: -1 | 1): void;
 };
 
 const Item: FC<Props> = ({ item, incrementNumItems, decrementNumItems, reflectTotal }) => {

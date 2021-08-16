@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from "react";
-import { CartItem, getCart, clearCart } from "../../lib/cartItem";
+import { CartItem, getCart, clearCart } from "../../lib/cart";
 import Item from "../../components/Item";
+import { Items, CreateOrderInput, sendOrder } from "../../lib/order";
 
 type Props = {
   incrementNumItems(): void;
@@ -12,25 +13,44 @@ const Cart: FC<Props> = ({ incrementNumItems, decrementNumItems }) => {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    setCart(getCart());
-  }, []);
+    const temp_cart: CartItem[] = getCart();
+    setCart(temp_cart);
 
-  const handleOrder = () => {
-    clearCart();
-    window.alert("注文しました！");
-  };
+    let temp_total: number = 0;
+    temp_cart.forEach((item) => {
+      temp_total += item.quantity * item.product.price;
+    });
+    setTotal(temp_total);
+  }, []);
 
   const reflectTotal = (price: number, direction: -1 | 1) => {
     setTotal(total + price * direction);
   };
 
-  useEffect(() => {
-    let temp_total: number = 0;
-    cart.forEach((item) => {
-      temp_total += item.quantity * item.product.price;
+  const handleOrder = () => {
+    // 多分 Itemコンポーネント変更時にcart stateに反映させる方がいいのかな
+    const updatedCart: CartItem[] = getCart();
+    const items: Items = updatedCart.map((item) => ({
+      productId: item.product.id,
+      quantity: item.quantity,
+    }));
+
+    clearCart();
+
+    // TODO 以下のハードコードを直す
+    const orderInput: CreateOrderInput = {
+      items: items,
+      pickupLocationId: "UGlja3VwTG9jYXRpb24tMQ==",
+      clientMutationId: "abcde",
+    };
+
+    console.log(orderInput);
+
+    sendOrder(orderInput).then((id) => {
+      console.log(id);
+      window.location.href = `/order/${id}`;
     });
-    setTotal(temp_total);
-  }, [cart]);
+  };
 
   return (
     <div>

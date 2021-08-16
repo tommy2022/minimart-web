@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Product, getProduct } from "../../lib/product";
-import { addToCart } from "../../lib/cartItem";
+import { addToCart } from "../../lib/cart";
 // import styles from "../product.module.css";
 
 type Props = {

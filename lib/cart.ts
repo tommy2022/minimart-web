@@ -33,7 +33,7 @@ export function addToCart(product: Product) {
 
 export function clearCart() {
   window.localStorage.clear();
-  window.location.href = "/";
+  // window.location.href = "/";
 }
 
 export function incrementQuantity(id: string) {
