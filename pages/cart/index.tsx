@@ -5,9 +5,12 @@ import { Product, getProduct } from "../../lib/product";
 import { CartItem, getCart, clearCart } from "../../lib/cartItem";
 // import styles from "../product.module.css";
 
-type Props = {};
+type Props = {
+  incrementNumItems(): void;
+  decrementNumItems(): void;
+};
 
-const Cart: FC<Props> = ({ decrementNumItems }) => {
+const Cart: FC<Props> = ({ incrementNumItems, decrementNumItems }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {

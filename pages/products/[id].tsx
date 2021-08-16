@@ -4,9 +4,12 @@ import { Product, getProduct } from "../../lib/product";
 import { addToCart } from "../../lib/cartItem";
 // import styles from "../product.module.css";
 
-type Props = {};
+type Props = {
+  incrementNumItems(): void;
+  decrementNumItems(): void;
+};
 
-const ProductDetail: FC<Props> = ({ incrementNumItems }) => {
+const ProductDetail: FC<Props> = ({ incrementNumItems, decrementNumItems }) => {
   const [product, setProduct] = useState<Product | null>(null);
 
   const router = useRouter();
